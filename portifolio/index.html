@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathália França | AI Specialist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --matcha-dark: #3A4535;
+            --matcha-soft: #C5D8B0;
+            --matcha-bg: #F4F9F1;
+            --strawberry: #FFD1DC;
+            --strawberry-dark: #D88A9A;
+        }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--matcha-bg); 
+            color: var(--matcha-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .name-calligraphy { 
+            font-family: 'Pinyon Script', cursive;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            line-height: 1.2;
+            color: var(--strawberry-dark);
+        }
+
+        .bento-card {
+            background: #ffffff;
+            border-radius: 2.5rem;
+            border: 1px solid rgba(197, 216, 176, 0.4);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            height: 100%;
+        }
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(58, 69, 53, 0.05);
+        }
+
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { animation: marquee 45s linear infinite; }
+
+        .logo-box {
+            filter: grayscale(100%);
+            opacity: 0.5;
+            transition: all 0.4s ease-in-out;
+            height: 30px;
+            width: 130px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+        .logo-box:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
+
+        .progress-bar-full {
+            width: 100%; height: 8px; border-radius: 99px; background: var(--strawberry); position: relative; overflow: hidden;
+        }
+        .progress-bar-full::after {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 100%; background: var(--strawberry-dark);
+        }
+
+        .tag { 
+            padding: 0.6rem 1.2rem; border-radius: 99px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.05); display: inline-flex; align-items: center; gap: 0.5rem; 
+        }
+
+        #project-modal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(58, 69, 53, 0.3); backdrop-filter: blur(15px); align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; max-width: 700px; width: 100%; border-radius: 3rem; padding: 50px; border: 1px solid var(--matcha-soft); }
+
+        [data-lang="en"] { display: none; }
+
+        .tool-logo-img {
+            width: 28px;
+            height: 28px;
+            filter: brightness(0) saturate(100%) invert(21%) sepia(11%) saturate(1201%) hue-rotate(53deg) brightness(96%) contrast(88%);
+            transition: 0.3s;
+        }
+        .tool-logo-img:hover { filter: brightness(0) saturate(100%) invert(21%) sepia(11%) saturate(1201%) hue-rotate(53deg) brightness(96%) contrast(88%); }
+
+        .logo-text-box {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--matcha-dark);
+            opacity: 0.5;
+            transition: all 0.4s ease-in-out;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .logo-text-box:hover { opacity: 1; transform: scale(1.1); }
+
+        .hero-photo {
+            width: 320px;
+            height: 100%;
+            min-height: 320px;
+            border-radius: 2rem;
+            object-fit: cover;
+            object-position: top;
+            border: 4px solid var(--strawberry);
+            flex-shrink: 0;
+            align-self: stretch;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12 lg:p-20">
+
+    <!-- Header -->
+    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-16">
+        <div class="mono text-[10px] font-bold uppercase tracking-[0.5em] opacity-30">Nathália França // 2026</div>
+        <div class="flex bg-white/60 backdrop-blur-md p-1 rounded-2xl border border-[--matcha-soft]">
+            <button onclick="setLang('pt')" id="btn-pt" class="px-6 py-2 rounded-xl bg-white shadow-sm font-bold text-[10px] uppercase">PT</button>
+            <button onclick="setLang('en')" id="btn-en" class="px-6 py-2 text-gray-400 font-bold text-[10px] uppercase">EN</button>
+        </div>
+    </nav>
+
+    <!-- Main Grid -->
+    <main class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
+        
+        <!-- Hero Section -->
+        <div class="md:col-span-12 bento-card p-12 md:p-24 relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-stretch gap-12">
+                <img
+                    src="assets/foto profissional.jpg"
+                    alt="Nathália França"
+                    class="hero-photo"
+                    onerror="this.style.display='none'"
+                >
+                <div>
+                    <h1 class="name-calligraphy mb-6">Nathália França</h1>
+                    <div class="max-w-4xl">
+                        <h2 class="text-3xl md:text-5xl font-extrabold leading-tight mb-8 tracking-tighter uppercase italic">
+                            <span data-lang="pt">Criando o futuro da experiência digital.</span>
+                            <span data-lang="en">Crafting the future of digital experience.</span>
+                        </h2>
+                        <p class="text-gray-500 text-xl md:text-2xl font-medium leading-relaxed max-w-2xl">
+                            <span data-lang="pt">Especialista em IA aplicada e design conversacional, criando soluções que tornam sistemas complexos mais inteligentes e humanos. ✨</span>
+                            <span data-lang="en">Applied AI specialist and conversational designer, creating solutions that make complex systems smarter and more human. ✨</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trusted By Marquee -->
+        <div class="md:col-span-12 bento-card py-16 overflow-hidden" id="marquee-wrapper" style="cursor:grab">
+            <p class="text-center mono text-[13px] font-black mb-12 tracking-[0.4em] text-gray-400 uppercase italic">Trusted by Global Operations</p>
+            <div class="flex animate-marquee whitespace-nowrap gap-32 items-center" id="marquee-track">
+                <!-- Set 1 -->
+                <img src="assets/nubanklogo.png" class="logo-box" alt="Nubank">
+                <img src="assets/2023_Itaú_Unibanco_Logo.png" class="logo-box" alt="Itaú">
+                <img src="assets/mercadolivrelogo.png" class="logo-box" alt="Mercado Livre">
+                <img src="assets/caixalogo.png" class="logo-box" alt="Caixa">
+                <img src="assets/btglogo.png" class="logo-box" alt="BTG Pactual">
+                <img src="assets/carrefourlogo.png" class="logo-box" alt="Carrefour" style="height:48px;width:180px">
+                <img src="assets/etihadlogo.png" class="logo-box" alt="Etihad">
+                <img src="assets/credsystemlogo.png" class="logo-box" alt="Credsystem">
+                <img src="assets/assimsaudelogo.png" class="logo-box" alt="Assim Saúde">
+                <img src="assets/pecaialogo.png" class="logo-box" alt="Peca IA">
+                <img src="assets/recoverylogo.png" class="logo-box" alt="Recovery">
+                <img src="assets/trampaylogo.png" class="logo-box" alt="Trampay">
+                <!-- Repetição para o loop infinito -->
+                <img src="assets/nubanklogo.png" class="logo-box" alt="Nubank">
+                <img src="assets/2023_Itaú_Unibanco_Logo.png" class="logo-box" alt="Itaú">
+                <img src="assets/mercadolivrelogo.png" class="logo-box" alt="Mercado Livre">
+                <img src="assets/caixalogo.png" class="logo-box" alt="Caixa">
+                <img src="assets/btglogo.png" class="logo-box" alt="BTG Pactual">
+                <img src="assets/carrefourlogo.png" class="logo-box" alt="Carrefour" style="height:48px;width:180px">
+                <img src="assets/etihadlogo.png" class="logo-box" alt="Etihad">
+                <img src="assets/credsystemlogo.png" class="logo-box" alt="Credsystem">
+                <img src="assets/assimsaudelogo.png" class="logo-box" alt="Assim Saúde">
+                <img src="assets/pecaialogo.png" class="logo-box" alt="Peca IA">
+                <img src="assets/recoverylogo.png" class="logo-box" alt="Recovery">
+                <img src="assets/trampaylogo.png" class="logo-box" alt="Trampay">
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bento-card p-10 bg-white cursor-pointer" onclick="openProject('cogni')">
+                <p class="mono text-[9px] font-bold text-[--strawberry-dark] mb-4 uppercase">Project_01</p>
+                <h3 class="text-2xl font-black mb-2 italic">CogniPrep</h3>
+                <p class="text-sm text-gray-400 mb-6">
+                    <span data-lang="pt">IA para preparação profissional e empregabilidade.</span>
+                    <span data-lang="en">AI for career prep and employability.</span>
+                </p>
+                <span class="text-[10px] font-bold uppercase underline">Detalhes / Details</span>
+            </div>
+            <div class="bento-card p-10 bg-white cursor-pointer" onclick="openProject('ben')">
+                <p class="mono text-[9px] font-bold text-[--strawberry-dark] mb-4 uppercase">Project_02</p>
+                <h3 class="text-2xl font-black mb-2 italic">Ben.IA</h3>
+                <p class="text-sm text-gray-400 mb-6">
+                    <span data-lang="pt">Educação inclusiva para alfabetização no autismo.</span>
+                    <span data-lang="en">Inclusive education for autism literacy.</span>
+                </p>
+                <span class="text-[10px] font-bold uppercase underline">Detalhes / Details</span>
+            </div>
+            <div class="bento-card p-10 bg-white cursor-pointer" onclick="openProject('oraculo')">
+                <p class="mono text-[9px] font-bold text-[--strawberry-dark] mb-4 uppercase">Project_03</p>
+                <h3 class="text-2xl font-black mb-2 italic">Oráculo de Services</h3>
+                <p class="text-sm text-gray-400 mb-6">
+                    <span data-lang="pt">Enablement interno e mentoria técnica via IA.</span>
+                    <span data-lang="en">Internal AI enablement and knowledge scaling.</span>
+                </p>
+                <span class="text-[10px] font-bold uppercase underline">Detalhes / Details</span>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="md:col-span-8 bento-card">
+            <div class="flex bg-gray-50/50 border-b border-gray-100 overflow-hidden rounded-t-[2.5rem]">
+                <div class="px-10 py-5 tab-active mono text-[10px] font-bold uppercase">ai_specialist.txt</div>
+            </div>
+            <div class="p-12 md:p-16">
+                <h3 class="text-4xl font-extrabold mb-8">AI Specialist & <br>Prompt Engineer</h3>
+                <p class="text-gray-500 text-xl font-medium leading-relaxed mb-12">
+                    <span data-lang="pt">Especialista em IA aplicada, design de agentes e automação inteligente. Atuo criando soluções que conectam estratégia, experiência e eficiência operacional.</span>
+                    <span data-lang="en">Expert in applied AI, agent design, and intelligent automation. I create solutions that connect strategy, experience, and operational efficiency.</span>
+                </p>
+                <div class="flex flex-wrap gap-3 italic">
+                    <span class="tag bg-[--strawberry] text-[--strawberry-dark]">Prompt Engineering</span>
+                    <span class="tag bg-[--matcha-soft] text-[--matcha-dark]">Applied AI Research</span>
+                    <span class="tag bg-[--matcha-soft] text-[--matcha-dark]">AI Prototyping</span>
+                    <span class="tag bg-[--strawberry] text-[--strawberry-dark]">AI Training</span>
+                    <span class="tag bg-[--matcha-soft] text-[--matcha-dark]">Design for AI</span>
+                    <span class="tag bg-[--matcha-soft] text-[--matcha-dark]">Workflow Design</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toolbox (Python Adicionado Aqui) -->
+        <div class="md:col-span-4 flex flex-col gap-8">
+            <div class="bento-card p-10 bg-white flex flex-col justify-between">
+                <p class="mono text-[9px] font-bold text-gray-400 mb-8 uppercase tracking-widest text-center">Toolbox</p>
+                <div class="grid grid-cols-5 gap-2 justify-items-center">
+                    <img src="https://cdn.simpleicons.org/python/3A4535" class="tool-logo-img" title="Python" onerror="this.style.display='none'">
+                    <img src="assets/openailogo.png" class="tool-logo-img" title="OpenAI" style="filter: invert(21%) sepia(11%) saturate(1201%) hue-rotate(53deg) brightness(96%) contrast(88%); mix-blend-mode: multiply;">
+                    <img src="https://cdn.simpleicons.org/claude/3A4535" class="tool-logo-img" title="Claude (Anthropic)" onerror="this.src='https://cdn.simpleicons.org/anthropic/3A4535'">
+                    <img src="https://cdn.simpleicons.org/googlegemini/3A4535" class="tool-logo-img" title="Gemini (Google)" onerror="this.style.display='none'">
+                    <img src="https://cdn.simpleicons.org/git/3A4535" class="tool-logo-img" title="Git" onerror="this.style.display='none'">
+                </div>
+                <div class="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
+                    <span class="text-4xl font-black" style="color: var(--strawberry-dark);">40+</span>
+                    <span class="mono text-[8px] font-bold uppercase opacity-50 text-right">IA Solutions<br>Deployed</span>
+                </div>
+            </div>
+            
+            <div class="bento-card p-10 bg-[--matcha-dark] text-white">
+                <h3 class="mono text-[10px] font-bold tracking-widest opacity-40 mb-10 uppercase italic">Core_Focus // 100%</h3>
+                <div class="space-y-8">
+                    <div>
+                        <div class="flex justify-between mb-2"><p class="text-[9px] font-bold uppercase opacity-60 italic">AI/UX Research</p><p class="text-[9px] font-bold">MAX</p></div>
+                        <div class="progress-bar-full"></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2"><p class="text-[9px] font-bold uppercase opacity-60 italic">Low-Code Automation</p><p class="text-[9px] font-bold">MAX</p></div>
+                        <div class="progress-bar-full"></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2"><p class="text-[9px] font-bold uppercase opacity-60 italic">Conversational Design</p><p class="text-[9px] font-bold">MAX</p></div>
+                        <div class="progress-bar-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recomendações LinkedIn -->
+        <div class="md:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bento-card p-10 md:p-14 bg-[--matcha-dark] text-white flex flex-col justify-between gap-10">
+                <div>
+                    <p class="mono text-[9px] font-bold tracking-[0.4em] opacity-40 uppercase mb-8"><span data-lang="pt">Recomendação · LinkedIn</span><span data-lang="en">LinkedIn Recommendation</span></p>
+                    <p class="text-white/80 text-lg leading-relaxed italic">"Trabalhar com a Nath é ter a certeza de que o projeto estará em mãos experientes e comprometidas com excelência. Domina com segurança IA aplicada e design de experiências conversacionais — estratégia, clareza e execução de alto nível, sempre com foco em resultado e impacto real. Trabalhar com ela não é só uma ótima experiência, é uma vantagem competitiva."</p>
+                </div>
+                <div class="border-t border-white/10 pt-8">
+                    <p class="font-black text-lg">Gabriel Nascimento Ferreira</p>
+                    <p class="mono text-[9px] opacity-50 uppercase tracking-widest mt-1">Data Science · AI · Prompt Engineer · LLMs Specialist</p>
+                </div>
+            </div>
+            <div class="bento-card p-10 md:p-14 bg-[--strawberry] flex flex-col justify-between gap-10">
+                <div>
+                    <p class="mono text-[9px] font-bold tracking-[0.4em] text-[--strawberry-dark] uppercase mb-8"><span data-lang="pt">Recomendação · LinkedIn</span><span data-lang="en">LinkedIn Recommendation</span></p>
+                    <p class="text-[--matcha-dark]/80 text-lg leading-relaxed italic">"Trabalhar com a Nath é uma daquelas experiências que a gente quer repetir pra sempre. Domina como poucos o trabalho com Inteligência Artificial aplicada e entrega soluções com assertividade, visão estratégica e profundidade técnica. Nath é o tipo de profissional que faz a diferença, e que a gente quer por perto em qualquer desafio."</p>
+                </div>
+                <div class="border-t border-[--strawberry-dark]/20 pt-8">
+                    <p class="font-black text-lg text-[--matcha-dark]">Eloiza Sprícido</p>
+                    <p class="mono text-[9px] text-[--strawberry-dark] uppercase tracking-widest mt-1">Especialista em IA Conversacional · Arquitetura de Agentes · CX</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedbacks -->
+
+        <div class="md:col-span-12 bento-card p-12 md:p-16">
+            <p class="mono text-[10px] font-black mb-4 tracking-[0.4em] text-gray-400 uppercase italic"><span data-lang="pt">Feedbacks recebidos</span><span data-lang="en">What people are saying</span></p>
+            <h3 class="text-4xl font-extrabold mb-12 tracking-tighter"><span data-lang="pt">O que dizem por aí. 💬</span><span data-lang="en">Real words, real people. 💬</span></h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
+                    <p class="text-gray-600 text-base leading-relaxed italic">"Você é uma prefeita, xará! Parabéns, amei a proposta e estava precisando muito disso 💜"</p>
+                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">UX/UI Designer · @SouJunior</span>
+                </div>
+                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
+                    <p class="text-gray-600 text-base leading-relaxed italic">"Já perdi as contas de quantos 'optamos por seguir com outro perfil' recebi... Ver alguém transformar essa frustração em uma solução real é inspirador. Parabéns pelo CogniPrep!"</p>
+                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">Web Developer · Front-End</span>
+                </div>
+                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
+                    <p class="text-gray-600 text-base leading-relaxed italic">"Caracaaaa!! Genial 👏 Já vou usar, tô precisando! Obrigada por compartilhar, tenho certeza que vai ajudar muitas pessoas 💜"</p>
+                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">Análise e Desenvolvimento de Sistemas</span>
+                </div>
+                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
+                    <p class="text-gray-600 text-base leading-relaxed italic">"NECESSÁRIO! Eu recebi tantos e-mails como esse que cheguei a pensar em abrir mão da área. Que conteúdo incrível, eu precisava disso 😅"</p>
+                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">UX/UI Designer · Marketing Digital</span>
+                </div>
+                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
+                    <p class="text-gray-600 text-base leading-relaxed italic">"Caramba, essa ferramenta vai me salvar em tanta coisa..."</p>
+                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">Desenvolvedora Web Júnior · Full-Stack</span>
+                </div>
+                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
+                    <p class="text-gray-600 text-base leading-relaxed italic">"Que incrível!! Já vou usar por aqui para me preparar para os processos seletivos."</p>
+                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">Analista de Marketing · Eventos & Análise</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medium -->
+
+        <a href="https://medium.com/@cogni_" target="_blank" class="md:col-span-12 bento-card p-16 md:p-24 bg-white border-4 border-transparent hover:border-[--strawberry] group transition-all">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-8">
+                <div>
+                    <h3 class="text-6xl font-extrabold mb-6 italic tracking-tighter">Medium.</h3>
+                    <p class="text-2xl text-gray-500 font-medium max-w-2xl leading-relaxed">
+                        <span data-lang="pt">Artigos técnicos e pesquisas sobre engenharia de prompts, automação inteligente e UX.</span>
+                        <span data-lang="en">Technical articles and research on prompt engineering, intelligent automation, and UX.</span>
+                    </p>
+                </div>
+                <div class="px-12 py-6 bg-[--matcha-dark] text-white font-black uppercase text-sm rounded-[2rem] group-hover:bg-[--strawberry-dark] transition-all">Explorar Insights ↗</div>
+            </div>
+        </a>
+    </main>
+
+    <footer class="max-w-7xl mx-auto mt-32 pb-20 border-t border-[--matcha-soft] pt-16 flex flex-col md:flex-row justify-between items-center gap-10 px-6">
+        <div class="flex flex-col items-center md:items-start">
+            <div class="name-calligraphy text-6xl mb-2">Nathália França</div>
+            <div class="mono text-[10px] font-bold text-gray-400 uppercase tracking-widest">Portfolio © 2026 // AI Engineering</div>
+        </div>
+        <div class="flex gap-12 font-extrabold text-[11px] uppercase tracking-[0.3em]">
+            <a href="https://linkedin.com/in/nathalia-franc4" target="_blank" class="hover:text-[--strawberry-dark]">Linkedin</a>
+            <a href="https://medium.com/@cogni_" target="_blank" class="hover:text-[--strawberry-dark]">Medium</a>
+            <a href="mailto:nathalia.franc4@gmail.com" class="hover:text-[--strawberry-dark]">Email</a>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="project-modal" onclick="closeProject()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3 id="modal-title" class="text-4xl font-black mb-6 italic" style="color: var(--strawberry-dark);"></h3>
+            <p id="modal-body" class="text-gray-500 text-lg leading-relaxed mb-10"></p>
+            <div class="flex gap-4 flex-wrap">
+                <a id="modal-link" href="#" target="_blank" class="bg-[--strawberry-dark] text-white px-10 py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest hidden">Testar Projeto ↗</a>
+                <button onclick="closeProject()" class="bg-[--matcha-dark] text-white px-10 py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest">Fechar / Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setLang(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.style.display = el.getAttribute('data-lang') === lang ? 'block' : 'none';
+            });
+            document.getElementById('btn-pt').classList.toggle('bg-white', lang === 'pt');
+            document.getElementById('btn-en').classList.toggle('bg-white', lang === 'en');
+        }
+
+        const projects = {
+            cogni: {
+                pt: {
+                    title: "CogniPrep",
+                    body: "Agente de IA conversacional criado para transformar a busca por emprego em uma experiência estratégica e personalizada. Ajuda na criação e revisão de currículos, cartas de apresentação e portfólios, além de simular entrevistas — inclusive internacionais. Construído com engenharia de prompt avançada, lógica emocional e in-context learning, adapta tom e linguagem ao perfil de cada usuário. Testado em mais de 500 conversas reais, apoiou pessoas em transição de carreira com suporte empático e feedback honesto. Disponível em português, inglês e espanhol.",
+                    link: "https://chatgpt.com/g/g-6810ad12aa848191b569ac89616bb0ae-cogniprep"
+                },
+                en: {
+                    title: "CogniPrep",
+                    body: "A conversational AI agent designed to turn job searching into a strategic, personalized experience. It helps users create and review resumes, cover letters, and portfolios, while simulating interviews — including international ones. Built with advanced prompt engineering, emotional logic, and in-context learning, it adapts its tone and language to each user's profile. Tested across 500+ real conversations, it supported people in career transitions with empathetic guidance and honest feedback. Available in Portuguese, English, and Spanish.",
+                    link: "https://chatgpt.com/g/g-6810ad12aa848191b569ac89616bb0ae-cogniprep"
+                }
+            },
+            ben: {
+                pt: {
+                    title: "Ben.IA",
+                    body: "Agente conversacional criado para apoiar a jornada de alfabetização de crianças autistas, sempre com a supervisão de um adulto. Desenvolvido para pais, educadores e terapeutas, oferece atividades guiadas, linguagem lúdica e reforço positivo em cada etapa. Personaliza a experiência com base no nome, idade e interesses da criança, garantindo um ambiente seguro, previsível e acolhedor. Estimula leitura, comunicação verbal, associação e raciocínio — sempre de forma leve e gamificada. Inspirado na jornada pessoal da criadora como mãe, nasceu do desejo de oferecer às famílias uma ferramenta inclusiva e acessível, especialmente para quem não tem acesso contínuo à terapia.",
+                    link: "https://chatgpt.com/g/g-6805070cd0fc81918ef664a0d60ca187-ben-ia-seu-amigo-pra-aprender-brincando"
+                },
+                en: {
+                    title: "Ben.IA",
+                    body: "A conversational agent built to support the literacy journey of autistic children, always guided by a caring adult. Designed for parents, educators, and therapists, it provides structured activities, playful language, and positive reinforcement at every step. It personalizes the experience based on the child's name, age, and interests, creating a safe, predictable, and welcoming environment. It stimulates reading, verbal communication, association, and reasoning — in a light, gamified way. Inspired by the creator's personal journey as a mother, Ben.IA was born from the desire to offer families an inclusive and accessible tool, especially for those without continuous access to therapy.",
+                    link: "https://chatgpt.com/g/g-6805070cd0fc81918ef664a0d60ca187-ben-ia-seu-amigo-pra-aprender-brincando"
+                }
+            },
+            oraculo: {
+                pt: {
+                    title: "Oráculo de Services",
+                    body: "Agente de IA interno criado para apoiar o time de Services da Hi Platform em todo o ciclo de desenvolvimento de chatbots. Atua como parceiro sênior, guiando Bot Specialists, Content Designers, Integradores e Analistas na criação, otimização e análise de fluxos conversacionais. Treinado exclusivamente com documentação oficial da Hi Platform, artigos do Help Center e endpoints internos — sem fontes externas. Segue uma lógica contextual e por fases, sempre investigando o cenário antes de responder. Acelerou o onboarding, reduziu gargalos internos e se tornou referência diária para toda a equipe.",
+                    link: ""
+                },
+                en: {
+                    title: "Services Oracle",
+                    body: "An internal AI agent built to support Hi Platform's Services team across the entire chatbot development cycle. It acts as a senior partner, guiding Bot Specialists, Content Designers, Integrators, and Analysts through flow creation, optimization, and performance analysis. Trained exclusively on Hi Platform's official documentation, Help Center articles, and internal endpoints — with no external sources. Follows a contextual, phase-by-phase logic, always investigating the scenario before responding. Accelerated team onboarding, reduced internal bottlenecks, and became a daily reference for the entire team.",
+                    link: ""
+                }
+            }
+        };
+
+        function openProject(id) {
+            const lang = document.getElementById('btn-pt').classList.contains('bg-white') ? 'pt' : 'en';
+            const p = projects[id][lang];
+            document.getElementById('modal-title').innerText = p.title;
+            document.getElementById('modal-body').innerText  = p.body;
+            const linkEl = document.getElementById('modal-link');
+            if (p.link) {
+                linkEl.href = p.link;
+                linkEl.classList.remove('hidden');
+            } else {
+                linkEl.classList.add('hidden');
+            }
+            document.getElementById('project-modal').style.display = 'flex';
+        }
+
+        function closeProject() { document.getElementById('project-modal').style.display = 'none'; }
+    </script>
+
+    <script>
+        (function () {
+            const wrapper = document.getElementById('marquee-wrapper');
+            const track   = document.getElementById('marquee-track');
+            const DURATION = 45; // deve bater com o CSS
+            let isDragging = false, startX = 0, capturedX = 0;
+
+            function getLiveX() {
+                return new DOMMatrix(getComputedStyle(track).transform).m41;
+            }
+
+            function resumeFromX(x) {
+                const halfWidth = track.scrollWidth / 2;
+                x = x % (-halfWidth);
+                if (x > 0) x -= halfWidth;
+                const delay = (x / (-halfWidth)) * DURATION;
+                track.style.transform = '';
+                track.style.animationDelay = `-${delay}s`;
+                track.style.animationPlayState = 'running';
+                track.style.animation = '';
+                void track.offsetWidth;
+                track.style.animationDelay = `-${delay}s`;
+            }
+
+            wrapper.addEventListener('mousedown', e => {
+                isDragging = true;
+                capturedX  = getLiveX();
+                startX     = e.pageX;
+                track.style.animationPlayState = 'paused';
+                track.style.animation = 'none';
+                track.style.transform = `translateX(${capturedX}px)`;
+                wrapper.style.cursor  = 'grabbing';
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', e => {
+                if (!isDragging) return;
+                track.style.transform = `translateX(${capturedX + (e.pageX - startX)}px)`;
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                wrapper.style.cursor = 'grab';
+                resumeFromX(getLiveX());
+            });
+        })();
+    </script>
+</body>
+</html>

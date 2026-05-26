@@ -1,0 +1,16 @@
+# Node / generic
+node_modules/
+.env
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+desktop.ini
