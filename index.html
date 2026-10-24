@@ -1,484 +1,64 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nathália França | AI Specialist</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500&family=Pinyon+Script&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --matcha-dark: #3A4535;
-            --matcha-soft: #C5D8B0;
-            --matcha-bg: #F4F9F1;
-            --strawberry: #FFD1DC;
-            --strawberry-dark: #D88A9A;
-        }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--matcha-bg); 
-            color: var(--matcha-dark);
-            -webkit-font-smoothing: antialiased;
-        }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        
-        .name-calligraphy { 
-            font-family: 'Pinyon Script', cursive;
-            font-size: clamp(3.5rem, 10vw, 7rem);
-            line-height: 1.2;
-            color: var(--strawberry-dark);
-        }
-
-        .bento-card {
-            background: #ffffff;
-            border-radius: 2.5rem;
-            border: 1px solid rgba(197, 216, 176, 0.4);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-            height: 100%;
-        }
-        .bento-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(58, 69, 53, 0.05);
-        }
-
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { animation: marquee 45s linear infinite; }
-
-        .logo-box {
-            filter: grayscale(100%);
-            opacity: 0.5;
-            transition: all 0.4s ease-in-out;
-            height: 30px;
-            width: 130px;
-            object-fit: contain;
-            cursor: pointer;
-        }
-        .logo-box:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
-
-        .progress-bar-full {
-            width: 100%; height: 8px; border-radius: 99px; background: var(--strawberry); position: relative; overflow: hidden;
-        }
-        .progress-bar-full::after {
-            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 100%; background: var(--strawberry-dark);
-        }
-
-        .tag { 
-            padding: 0.6rem 1.2rem; border-radius: 99px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.05); display: inline-flex; align-items: center; gap: 0.5rem; 
-        }
-
-        #project-modal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(58, 69, 53, 0.3); backdrop-filter: blur(15px); align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: white; max-width: 700px; width: 100%; border-radius: 3rem; padding: 50px; border: 1px solid var(--matcha-soft); }
-
-        [data-lang="en"] { display: none; }
-
-        .tool-logo-img {
-            width: 28px;
-            height: 28px;
-            filter: brightness(0) saturate(100%) invert(21%) sepia(11%) saturate(1201%) hue-rotate(53deg) brightness(96%) contrast(88%);
-            transition: 0.3s;
-        }
-        .tool-logo-img:hover { filter: brightness(0) saturate(100%) invert(21%) sepia(11%) saturate(1201%) hue-rotate(53deg) brightness(96%) contrast(88%); }
-
-        .logo-text-box {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--matcha-dark);
-            opacity: 0.5;
-            transition: all 0.4s ease-in-out;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .logo-text-box:hover { opacity: 1; transform: scale(1.1); }
-
-        .hero-photo {
-            width: 320px;
-            height: 100%;
-            min-height: 320px;
-            border-radius: 2rem;
-            object-fit: cover;
-            object-position: top;
-            border: 4px solid var(--strawberry);
-            flex-shrink: 0;
-            align-self: stretch;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#09090f" />
+  <meta name="description" content="Nathália França — Generative AI specialist designing, building and evolving human-centered AI agents and experiences." />
+  <meta property="og:title" content="Nathália França — Designing intelligence." />
+  <meta property="og:description" content="AI agents, solutions and experiences. Selected work and professional journey." />
+  <title>Nathália França — AI Agents, Solutions & Experiences</title>
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
 </head>
-<body class="p-6 md:p-12 lg:p-20">
-
-    <!-- Header -->
-    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-16">
-        <div class="mono text-[10px] font-bold uppercase tracking-[0.5em] opacity-30">Nathália França // 2026</div>
-        <div class="flex bg-white/60 backdrop-blur-md p-1 rounded-2xl border border-[--matcha-soft]">
-            <button onclick="setLang('pt')" id="btn-pt" class="px-6 py-2 rounded-xl bg-white shadow-sm font-bold text-[10px] uppercase">PT</button>
-            <button onclick="setLang('en')" id="btn-en" class="px-6 py-2 text-gray-400 font-bold text-[10px] uppercase">EN</button>
-        </div>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <a class="wordmark" href="#top" aria-label="Nathália França, back to top">nf<span class="wordmark-dot">.</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#work">Work</a><a href="#approach">Approach</a><a href="#about">About</a><a href="#writing">Writing</a><a href="#contact">Contact</a>
     </nav>
-
-    <!-- Main Grid -->
-    <main class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
-        
-        <!-- Hero Section -->
-        <div class="md:col-span-12 bento-card p-12 md:p-24 relative overflow-hidden">
-            <div class="flex flex-col md:flex-row items-stretch gap-12">
-                <img
-                    src="assets/foto profissional.jpg"
-                    alt="Nathália França"
-                    class="hero-photo"
-                    onerror="this.style.display='none'"
-                >
-                <div>
-                    <h1 class="name-calligraphy mb-6">Nathália França</h1>
-                    <div class="max-w-4xl">
-                        <h2 class="text-3xl md:text-5xl font-extrabold leading-tight mb-8 tracking-tighter uppercase italic">
-                            <span data-lang="pt">Criando o futuro da experiência digital.</span>
-                            <span data-lang="en">Crafting the future of digital experience.</span>
-                        </h2>
-                        <p class="text-gray-500 text-xl md:text-2xl font-medium leading-relaxed max-w-2xl">
-                            <span data-lang="pt">Especialista em IA aplicada e design conversacional, criando soluções que tornam sistemas complexos mais inteligentes e humanos. ✨</span>
-                            <span data-lang="en">Applied AI specialist and conversational designer, creating solutions that make complex systems smarter and more human. ✨</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <div class="header-actions"><div class="language-picker" role="group" aria-label="Select language"><button type="button" data-lang="pt-BR" aria-pressed="false">PT-BR</button><span aria-hidden="true">/</span><button type="button" data-lang="en-US" aria-pressed="true">EN-US</button></div><a class="header-link" href="mailto:nathaliafrancadesign@gmail.com">Let's talk <span aria-hidden="true">↗</span></a></div>
+    <button class="mobile-menu" id="mobile-menu" type="button" aria-expanded="false" aria-label="Toggle menu"><span></span><span></span></button>
+  </header>
+  <main id="main">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-top"><span class="eyebrow"><span class="pulse"></span> GENERATIVE AI · AGENT DESIGN · SOLUTIONS</span><span class="hero-index">PORTFOLIO / 2026</span></div>
+      <div class="hero-content"><p class="hero-intro reveal">HI, I'M NATHÁLIA FRANÇA <span class="hand">✳</span></p>
+        <h1 class="reveal" id="hero-title">Designing<br><em>intelligence.</em><br>Building <span class="outline-word">experiences.</span></h1>
+        <div class="hero-bottom"><p class="lead reveal">I design, build, and continuously evolve AI agents — combining technical execution, conversational experience, and product thinking to make intelligent systems genuinely useful.</p><div class="hero-cta reveal"><a class="round-arrow" href="#work" aria-label="Explore selected work">↘</a><span>EXPLORE MY WORK</span></div></div>
+      </div>
+      <div class="hero-visual" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="visual-core"><span>intelligence<br>× empathy</span></div><div class="floater floater-a">THINK / BUILD</div><div class="floater floater-b">ITERATE ↗</div><div class="spark spark-one">✳</div><div class="spark spark-two">✴</div></div>
+      <div class="hero-footer"><span>BASED IN BRAZIL · WORKING ACROSS DISCIPLINES</span><span>SCROLL TO DISCOVER <span aria-hidden="true">↓</span></span></div>
+    </section>
+    <section class="manifesto section" aria-label="Professional point of view"><div class="container manifesto-grid"><span class="section-kicker">01 / THE POINT OF VIEW</span><p class="manifesto-text reveal">Great AI isn't just about what a model <i>can</i> do.<br>It's about what people can <span>actually accomplish</span> with it.</p></div></section>
+    <section class="work-section section container" id="work" aria-labelledby="work-title"><div class="section-head"><div><div class="section-kicker">02 / FEATURED WORK</div><h2 id="work-title">Selected <em>work.</em></h2></div><p>Real problems. Thoughtful solutions.<br>Impact beyond the interface.</p></div>
+      <div class="work-grid">
+        <article class="case-card large-card card-agent reveal"><button class="case-open" type="button" data-case="enterprise" aria-label="Read case study: Building an Enterprise AI Agent"><div class="card-top"><span>01 / ENTERPRISE AI</span><span class="corner">↗</span></div><div class="card-art agent-art" aria-hidden="true"><div class="agent-glow"></div><div class="agent-ring r1"></div><div class="agent-ring r2"></div><div class="agent-center">AI<span>↗</span></div><span class="art-note left-note">KNOWLEDGE</span><span class="art-note right-note">TOOLS · APIs</span></div><div class="card-copy"><div class="tags"><span>AGENT DEVELOPMENT</span><span>AI SOLUTIONS</span></div><h3>From rule-based<br>to <em>generative.</em></h3><p>Designing and configuring a production AI agent with connected tools, knowledge resources and a continuously evolving experience.</p><span class="read-case">Explore case <span>↗</span></span></div></button></article>
+        <article class="case-card card-guidance reveal"><button class="case-open" type="button" data-case="guidance" aria-label="Read case study: From static guides to adaptive AI guidance"><div class="card-top"><span>02 / CONVERSATIONAL UX</span><span class="corner">↗</span></div><div class="card-art guidance-art" aria-hidden="true"><div class="chat-bubble bubble-one"><span class="tiny-label">ASSISTANT</span>Let's take it one step at a time.</div><div class="chat-bubble bubble-two">Done! What's next?</div><div class="chat-bubble bubble-three">Great. Here's the next step <span>↗</span></div><div class="guidance-star">✳</div></div><div class="card-copy"><div class="tags"><span>UX FOR AI</span><span>OPTIMIZATION</span></div><h3>Guidance that<br><em>adapts.</em></h3><p>Turning overwhelming PDF instructions into responsive, step-by-step assistance — and improving the experience along the way.</p><span class="read-case">Explore case <span>↗</span></span></div></button></article>
+        <article class="case-card card-evaluation reveal"><button class="case-open" type="button" data-case="evaluation" aria-label="Read case study: Designing AI evaluation workflows"><div class="card-top"><span>03 / INTERNAL AI TOOLING</span><span class="corner">↗</span></div><div class="card-art evaluation-art" aria-hidden="true"><div class="report-card"><div class="report-header"><span>SIMULATION / CONCEPTUAL</span><b>✳</b></div><div class="report-row"><span class="report-dot"></span><span class="report-line wide"></span><span class="report-pill"></span></div><div class="report-row"><span class="report-dot"></span><span class="report-line"></span><span class="report-pill"></span></div><div class="report-row"><span class="report-dot"></span><span class="report-line medium"></span><span class="report-pill"></span></div></div><div class="mini-disc">↗</div></div><div class="card-copy"><div class="tags"><span>AI PRODUCT DESIGN</span><span>QUALITY</span></div><h3>Making AI<br><em>testable.</em></h3><p>Helping design collaborative internal tooling that makes conversational AI evaluation more efficient and accessible to teams.</p><span class="read-case">Explore case <span>↗</span></span></div></button></article>
+      </div>
+      <p class="confidential-note"><span>✳</span> Professional cases are anonymized. Proprietary product names, interfaces, implementation details and confidential metrics are intentionally excluded. Visuals are conceptual.</p>
+    </section>
+    <section class="approach-section section" id="approach" aria-labelledby="approach-title"><div class="container"><div class="section-head approach-head"><div><div class="section-kicker">03 / HOW I THINK & WORK</div><h2 id="approach-title">Beyond the <em>launch.</em></h2></div><p>AI isn't finished when it goes live.<br>That's when the learning starts.</p></div><div class="approach-grid"><article class="step reveal"><span class="step-number">01</span><div class="step-symbol">◉</div><h3>Build.</h3><p>Shape behavior, knowledge, journeys, tools, integrations and the experience around them.</p></article><article class="step reveal"><span class="step-number">02</span><div class="step-symbol">◎</div><h3>Observe.</h3><p>Study real conversations, operational reports, satisfaction signals and resolution patterns.</p></article><article class="step reveal"><span class="step-number">03</span><div class="step-symbol">✳</div><h3>Learn.</h3><p>Find friction, uncover unmet needs, and frame opportunities with the client and team.</p></article><article class="step reveal"><span class="step-number">04</span><div class="step-symbol">↗</div><h3>Evolve.</h3><p>Align priorities, implement improvements, and keep refining what works for people.</p></article></div></div></section>
+    <section class="experience-section section container" id="about" aria-labelledby="about-title"><div class="about-layout"><div class="about-lead"><div class="section-kicker">04 / ABOUT ME</div><h2 id="about-title">A bridge between <em>what's possible</em> and what's useful.</h2><p>I'm Nathália — a Generative AI specialist with a foundation in conversational design and a hands-on approach to building agents and AI-powered experiences.</p><p>My work sits where technology, experience, and product decisions meet. I move between designing how an agent should behave, configuring how it works, investigating what goes wrong, and evolving it with real-world evidence.</p><a href="https://www.linkedin.com/in/nath%C3%A1lia-franc4/" target="_blank" rel="noopener noreferrer" class="text-link">More about my journey ↗</a></div><div class="career-list"><div class="list-title">EXPERIENCE / JOURNEY</div><div class="career-item"><span class="career-year">2025 — NOW</span><div><h3>AI Specialist & Prompt Engineer</h3><p>Mutant · AI agents, prompts, integrations, evaluation & continuous improvement</p></div><span class="career-arrow">↗</span></div><div class="career-item"><span class="career-year">2024 — 2025</span><div><h3>Conversation Designer</h3><p>Hi Platform · Conversational experiences & digital journeys</p></div><span class="career-arrow">↗</span></div><div class="career-item"><span class="career-year">2022 — 2024</span><div><h3>IT Analyst</h3><p>Cabonnet · Technology, operations & problem solving</p></div><span class="career-arrow">↗</span></div><div class="career-item"><span class="career-year">EARLIER</span><div><h3>Customer Support Lead</h3><p>Customer experience, service operations & team collaboration</p></div><span class="career-arrow">↗</span></div><div class="list-title education-title">EDUCATION</div><div class="career-item"><span class="career-year">IN PROGRESS</span><div><h3>Software Engineering</h3><p>Bachelor's studies · Anhanguera</p></div><span class="career-arrow">✳</span></div></div></div>
+      <div class="skills-strip"><span>CONVERSATIONAL AI</span><span>✳</span><span>PROMPT ENGINEERING</span><span>✳</span><span>TOOL & API INTEGRATION</span><span>✳</span><span>AI EXPERIENCE</span><span>✳</span><span>EVALUATION & QUALITY</span><span>✳</span><span>KNOWLEDGE SYSTEMS</span></div>
+    </section>
+    <section class="collaboration-section section"><div class="container collaboration-layout"><div><div class="section-kicker">05 / SELECTED COLLABORATIONS</div><h2>Work that<br>crosses <em>contexts.</em></h2><p>Experience contributing to AI and conversational initiatives for organizations across different industries, through professional teams.</p></div><div class="collab-visual"><div class="collab-note">CLIENT REFERENCES ON REQUEST</div><div class="collab-orbit">N<span>✳</span>F</div><p>Enterprise · Digital services · Customer experience · Travel</p></div></div></section>
+    <section class="personal-section section container" aria-labelledby="personal-title"><div class="section-head personal-heading"><div><div class="section-kicker">06 / CREATIVE EXPERIMENTS</div><h2 id="personal-title">Curiosity in <em>motion.</em></h2></div><p>Independent explorations at the intersection of AI, technology, and human experience.</p></div><div class="personal-grid"><article><span>01 / INDEPENDENT</span><h3>Cogni</h3><p>An independent exploration in AI-driven learning and experiences.</p></article><article><span>02 / INDEPENDENT</span><h3>Ben.IA</h3><p>A personal AI concept exploring approachable, human-centered interaction.</p></article><article><span>03 / INDEPENDENT</span><h3>Oráculo de Services</h3><p>A creative exploration connecting digital experiences and service interactions.</p></article></div><p class="personal-note">Descriptions are intentionally high-level pending review of each project's scope and assets.</p></section>
+    <section class="writing-section section" id="writing" aria-labelledby="writing-title">
+      <div class="container">
+        <div class="section-head writing-head"><div><div class="section-kicker">07 / IDEAS & WRITING</div><h2 id="writing-title">Thinking <em>out loud.</em></h2></div><p>Ideas about AI, digital experiences and the way technology changes how we think and interact.</p></div>
+        <div class="writing-grid">
+          <article class="writing-feature reveal"><div class="writing-top"><span>FEATURED ARTICLE / AX</span><span aria-hidden="true">✳</span></div><div class="writing-ornament" aria-hidden="true">AX<span>.</span></div><div class="writing-copy"><span class="writing-type">AI EXPERIENCE · COGNITIVE FRICTION</span><h3>AX: O Triunfo do Mínimo Esforço e a Aposentadoria da Fricção Cognitiva</h3><p>A reflection on AI-driven experiences, cognitive effort and what it means to design for less friction.</p><a class="writing-link" href="https://medium.com/@cogni_" target="_blank" rel="noopener noreferrer">EXPLORE ON MEDIUM ↗</a></div></article>
+          <aside class="writing-aside reveal"><span class="section-kicker">MORE THAN BUILDING</span><h3>Exploring the <em>why</em> behind the work.</h3><p>Writing is where I connect practical AI development, user behavior and product ideas — looking beyond features to understand their impact.</p><a class="text-link" href="https://medium.com/@cogni_" target="_blank" rel="noopener noreferrer">More writing on Medium ↗</a></aside>
         </div>
-
-        <!-- Trusted By Marquee -->
-        <div class="md:col-span-12 bento-card py-16 overflow-hidden" id="marquee-wrapper" style="cursor:grab">
-            <p class="text-center mono text-[13px] font-black mb-12 tracking-[0.4em] text-gray-400 uppercase italic">Trusted by Global Operations</p>
-            <div class="flex animate-marquee whitespace-nowrap gap-32 items-center" id="marquee-track">
-                <!-- Set 1 -->
-                <img src="assets/nubanklogo.png" class="logo-box" alt="Nubank">
-                <img src="assets/2023_Itaú_Unibanco_Logo.png" class="logo-box" alt="Itaú">
-                <img src="assets/mercadolivrelogo.png" class="logo-box" alt="Mercado Livre">
-                <img src="assets/caixalogo.png" class="logo-box" alt="Caixa">
-                <img src="assets/btglogo.png" class="logo-box" alt="BTG Pactual">
-                <img src="assets/carrefourlogo.png" class="logo-box" alt="Carrefour" style="height:48px;width:180px">
-                <img src="assets/etihadlogo.png" class="logo-box" alt="Etihad">
-                <img src="assets/credsystemlogo.png" class="logo-box" alt="Credsystem">
-                <img src="assets/assimsaudelogo.png" class="logo-box" alt="Assim Saúde">
-                <img src="assets/pecaialogo.png" class="logo-box" alt="Peca IA">
-                <img src="assets/recoverylogo.png" class="logo-box" alt="Recovery">
-                <img src="assets/trampaylogo.png" class="logo-box" alt="Trampay">
-                <!-- Repetição para o loop infinito -->
-                <img src="assets/nubanklogo.png" class="logo-box" alt="Nubank">
-                <img src="assets/2023_Itaú_Unibanco_Logo.png" class="logo-box" alt="Itaú">
-                <img src="assets/mercadolivrelogo.png" class="logo-box" alt="Mercado Livre">
-                <img src="assets/caixalogo.png" class="logo-box" alt="Caixa">
-                <img src="assets/btglogo.png" class="logo-box" alt="BTG Pactual">
-                <img src="assets/carrefourlogo.png" class="logo-box" alt="Carrefour" style="height:48px;width:180px">
-                <img src="assets/etihadlogo.png" class="logo-box" alt="Etihad">
-                <img src="assets/credsystemlogo.png" class="logo-box" alt="Credsystem">
-                <img src="assets/assimsaudelogo.png" class="logo-box" alt="Assim Saúde">
-                <img src="assets/pecaialogo.png" class="logo-box" alt="Peca IA">
-                <img src="assets/recoverylogo.png" class="logo-box" alt="Recovery">
-                <img src="assets/trampaylogo.png" class="logo-box" alt="Trampay">
-            </div>
-        </div>
-
-        <!-- Projects -->
-        <div class="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bento-card p-10 bg-white cursor-pointer" onclick="openProject('cogni')">
-                <p class="mono text-[9px] font-bold text-[--strawberry-dark] mb-4 uppercase">Project_01</p>
-                <h3 class="text-2xl font-black mb-2 italic">CogniPrep</h3>
-                <p class="text-sm text-gray-400 mb-6">
-                    <span data-lang="pt">IA para preparação profissional e empregabilidade.</span>
-                    <span data-lang="en">AI for career prep and employability.</span>
-                </p>
-                <span class="text-[10px] font-bold uppercase underline">Detalhes / Details</span>
-            </div>
-            <div class="bento-card p-10 bg-white cursor-pointer" onclick="openProject('ben')">
-                <p class="mono text-[9px] font-bold text-[--strawberry-dark] mb-4 uppercase">Project_02</p>
-                <h3 class="text-2xl font-black mb-2 italic">Ben.IA</h3>
-                <p class="text-sm text-gray-400 mb-6">
-                    <span data-lang="pt">Educação inclusiva para alfabetização no autismo.</span>
-                    <span data-lang="en">Inclusive education for autism literacy.</span>
-                </p>
-                <span class="text-[10px] font-bold uppercase underline">Detalhes / Details</span>
-            </div>
-            <div class="bento-card p-10 bg-white cursor-pointer" onclick="openProject('oraculo')">
-                <p class="mono text-[9px] font-bold text-[--strawberry-dark] mb-4 uppercase">Project_03</p>
-                <h3 class="text-2xl font-black mb-2 italic">Oráculo de Services</h3>
-                <p class="text-sm text-gray-400 mb-6">
-                    <span data-lang="pt">Enablement interno e mentoria técnica via IA.</span>
-                    <span data-lang="en">Internal AI enablement and knowledge scaling.</span>
-                </p>
-                <span class="text-[10px] font-bold uppercase underline">Detalhes / Details</span>
-            </div>
-        </div>
-
-        <!-- About Section -->
-        <div class="md:col-span-8 bento-card">
-            <div class="flex bg-gray-50/50 border-b border-gray-100 overflow-hidden rounded-t-[2.5rem]">
-                <div class="px-10 py-5 tab-active mono text-[10px] font-bold uppercase">ai_specialist.txt</div>
-            </div>
-            <div class="p-12 md:p-16">
-                <h3 class="text-4xl font-extrabold mb-8">AI Specialist & <br>Prompt Engineer</h3>
-                <p class="text-gray-500 text-xl font-medium leading-relaxed mb-12">
-                    <span data-lang="pt">Especialista em IA aplicada, design de agentes e automação inteligente. Atuo criando soluções que conectam estratégia, experiência e eficiência operacional.</span>
-                    <span data-lang="en">Expert in applied AI, agent design, and intelligent automation. I create solutions that connect strategy, experience, and operational efficiency.</span>
-                </p>
-                <div class="flex flex-wrap gap-3 italic">
-                    <span class="tag bg-[--strawberry] text-[--strawberry-dark]">Prompt Engineering</span>
-                    <span class="tag bg-[--matcha-soft] text-[--matcha-dark]">Applied AI Research</span>
-                    <span class="tag bg-[--matcha-soft] text-[--matcha-dark]">AI Prototyping</span>
-                    <span class="tag bg-[--strawberry] text-[--strawberry-dark]">AI Training</span>
-                    <span class="tag bg-[--matcha-soft] text-[--matcha-dark]">Design for AI</span>
-                    <span class="tag bg-[--matcha-soft] text-[--matcha-dark]">Workflow Design</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Toolbox (Python Adicionado Aqui) -->
-        <div class="md:col-span-4 flex flex-col gap-8">
-            <div class="bento-card p-10 bg-white flex flex-col justify-between">
-                <p class="mono text-[9px] font-bold text-gray-400 mb-8 uppercase tracking-widest text-center">Toolbox</p>
-                <div class="grid grid-cols-5 gap-2 justify-items-center">
-                    <img src="https://cdn.simpleicons.org/python/3A4535" class="tool-logo-img" title="Python" onerror="this.style.display='none'">
-                    <img src="assets/openailogo.png" class="tool-logo-img" title="OpenAI" style="filter: invert(21%) sepia(11%) saturate(1201%) hue-rotate(53deg) brightness(96%) contrast(88%); mix-blend-mode: multiply;">
-                    <img src="https://cdn.simpleicons.org/claude/3A4535" class="tool-logo-img" title="Claude (Anthropic)" onerror="this.src='https://cdn.simpleicons.org/anthropic/3A4535'">
-                    <img src="https://cdn.simpleicons.org/googlegemini/3A4535" class="tool-logo-img" title="Gemini (Google)" onerror="this.style.display='none'">
-                    <img src="https://cdn.simpleicons.org/git/3A4535" class="tool-logo-img" title="Git" onerror="this.style.display='none'">
-                </div>
-                <div class="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
-                    <span class="text-4xl font-black" style="color: var(--strawberry-dark);">40+</span>
-                    <span class="mono text-[8px] font-bold uppercase opacity-50 text-right">IA Solutions<br>Deployed</span>
-                </div>
-            </div>
-            
-            <div class="bento-card p-10 bg-[--matcha-dark] text-white">
-                <h3 class="mono text-[10px] font-bold tracking-widest opacity-40 mb-10 uppercase italic">Core_Focus // 100%</h3>
-                <div class="space-y-8">
-                    <div>
-                        <div class="flex justify-between mb-2"><p class="text-[9px] font-bold uppercase opacity-60 italic">AI/UX Research</p><p class="text-[9px] font-bold">MAX</p></div>
-                        <div class="progress-bar-full"></div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between mb-2"><p class="text-[9px] font-bold uppercase opacity-60 italic">Low-Code Automation</p><p class="text-[9px] font-bold">MAX</p></div>
-                        <div class="progress-bar-full"></div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between mb-2"><p class="text-[9px] font-bold uppercase opacity-60 italic">Conversational Design</p><p class="text-[9px] font-bold">MAX</p></div>
-                        <div class="progress-bar-full"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recomendações LinkedIn -->
-        <div class="md:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bento-card p-10 md:p-14 bg-[--matcha-dark] text-white flex flex-col justify-between gap-10">
-                <div>
-                    <p class="mono text-[9px] font-bold tracking-[0.4em] opacity-40 uppercase mb-8"><span data-lang="pt">Recomendação · LinkedIn</span><span data-lang="en">LinkedIn Recommendation</span></p>
-                    <p class="text-white/80 text-lg leading-relaxed italic">"Trabalhar com a Nath é ter a certeza de que o projeto estará em mãos experientes e comprometidas com excelência. Domina com segurança IA aplicada e design de experiências conversacionais — estratégia, clareza e execução de alto nível, sempre com foco em resultado e impacto real. Trabalhar com ela não é só uma ótima experiência, é uma vantagem competitiva."</p>
-                </div>
-                <div class="border-t border-white/10 pt-8">
-                    <p class="font-black text-lg">Gabriel Nascimento Ferreira</p>
-                    <p class="mono text-[9px] opacity-50 uppercase tracking-widest mt-1">Data Science · AI · Prompt Engineer · LLMs Specialist</p>
-                </div>
-            </div>
-            <div class="bento-card p-10 md:p-14 bg-[--strawberry] flex flex-col justify-between gap-10">
-                <div>
-                    <p class="mono text-[9px] font-bold tracking-[0.4em] text-[--strawberry-dark] uppercase mb-8"><span data-lang="pt">Recomendação · LinkedIn</span><span data-lang="en">LinkedIn Recommendation</span></p>
-                    <p class="text-[--matcha-dark]/80 text-lg leading-relaxed italic">"Trabalhar com a Nath é uma daquelas experiências que a gente quer repetir pra sempre. Domina como poucos o trabalho com Inteligência Artificial aplicada e entrega soluções com assertividade, visão estratégica e profundidade técnica. Nath é o tipo de profissional que faz a diferença, e que a gente quer por perto em qualquer desafio."</p>
-                </div>
-                <div class="border-t border-[--strawberry-dark]/20 pt-8">
-                    <p class="font-black text-lg text-[--matcha-dark]">Eloiza Sprícido</p>
-                    <p class="mono text-[9px] text-[--strawberry-dark] uppercase tracking-widest mt-1">Especialista em IA Conversacional · Arquitetura de Agentes · CX</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Feedbacks -->
-
-        <div class="md:col-span-12 bento-card p-12 md:p-16">
-            <p class="mono text-[10px] font-black mb-4 tracking-[0.4em] text-gray-400 uppercase italic"><span data-lang="pt">Feedbacks recebidos</span><span data-lang="en">What people are saying</span></p>
-            <h3 class="text-4xl font-extrabold mb-12 tracking-tighter"><span data-lang="pt">O que dizem por aí. 💬</span><span data-lang="en">Real words, real people. 💬</span></h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
-                    <p class="text-gray-600 text-base leading-relaxed italic">"Você é uma prefeita, xará! Parabéns, amei a proposta e estava precisando muito disso 💜"</p>
-                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">UX/UI Designer · @SouJunior</span>
-                </div>
-                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
-                    <p class="text-gray-600 text-base leading-relaxed italic">"Já perdi as contas de quantos 'optamos por seguir com outro perfil' recebi... Ver alguém transformar essa frustração em uma solução real é inspirador. Parabéns pelo CogniPrep!"</p>
-                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">Web Developer · Front-End</span>
-                </div>
-                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
-                    <p class="text-gray-600 text-base leading-relaxed italic">"Caracaaaa!! Genial 👏 Já vou usar, tô precisando! Obrigada por compartilhar, tenho certeza que vai ajudar muitas pessoas 💜"</p>
-                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">Análise e Desenvolvimento de Sistemas</span>
-                </div>
-                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
-                    <p class="text-gray-600 text-base leading-relaxed italic">"NECESSÁRIO! Eu recebi tantos e-mails como esse que cheguei a pensar em abrir mão da área. Que conteúdo incrível, eu precisava disso 😅"</p>
-                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">UX/UI Designer · Marketing Digital</span>
-                </div>
-                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
-                    <p class="text-gray-600 text-base leading-relaxed italic">"Caramba, essa ferramenta vai me salvar em tanta coisa..."</p>
-                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">Desenvolvedora Web Júnior · Full-Stack</span>
-                </div>
-                <div class="bg-[--matcha-bg] rounded-3xl p-8 flex flex-col gap-4">
-                    <p class="text-gray-600 text-base leading-relaxed italic">"Que incrível!! Já vou usar por aqui para me preparar para os processos seletivos."</p>
-                    <span class="mono text-[9px] font-bold text-[--strawberry-dark] uppercase">Analista de Marketing · Eventos & Análise</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Medium -->
-
-        <a href="https://medium.com/@cogni_" target="_blank" class="md:col-span-12 bento-card p-16 md:p-24 bg-white border-4 border-transparent hover:border-[--strawberry] group transition-all">
-            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-8">
-                <div>
-                    <h3 class="text-6xl font-extrabold mb-6 italic tracking-tighter">Medium.</h3>
-                    <p class="text-2xl text-gray-500 font-medium max-w-2xl leading-relaxed">
-                        <span data-lang="pt">Artigos técnicos e pesquisas sobre engenharia de prompts, automação inteligente e UX.</span>
-                        <span data-lang="en">Technical articles and research on prompt engineering, intelligent automation, and UX.</span>
-                    </p>
-                </div>
-                <div class="px-12 py-6 bg-[--matcha-dark] text-white font-black uppercase text-sm rounded-[2rem] group-hover:bg-[--strawberry-dark] transition-all">Explorar Insights ↗</div>
-            </div>
-        </a>
-    </main>
-
-    <footer class="max-w-7xl mx-auto mt-32 pb-20 border-t border-[--matcha-soft] pt-16 flex flex-col md:flex-row justify-between items-center gap-10 px-6">
-        <div class="flex flex-col items-center md:items-start">
-            <div class="name-calligraphy text-6xl mb-2">Nathália França</div>
-            <div class="mono text-[10px] font-bold text-gray-400 uppercase tracking-widest">Portfolio © 2026 // AI Engineering</div>
-        </div>
-        <div class="flex gap-12 font-extrabold text-[11px] uppercase tracking-[0.3em]">
-            <a href="https://linkedin.com/in/nathalia-franc4" target="_blank" class="hover:text-[--strawberry-dark]">Linkedin</a>
-            <a href="https://medium.com/@cogni_" target="_blank" class="hover:text-[--strawberry-dark]">Medium</a>
-            <a href="mailto:nathalia.franc4@gmail.com" class="hover:text-[--strawberry-dark]">Email</a>
-        </div>
-    </footer>
-
-    <!-- Modal -->
-    <div id="project-modal" onclick="closeProject()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h3 id="modal-title" class="text-4xl font-black mb-6 italic" style="color: var(--strawberry-dark);"></h3>
-            <p id="modal-body" class="text-gray-500 text-lg leading-relaxed mb-10"></p>
-            <div class="flex gap-4 flex-wrap">
-                <a id="modal-link" href="#" target="_blank" class="bg-[--strawberry-dark] text-white px-10 py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest hidden">Testar Projeto ↗</a>
-                <button onclick="closeProject()" class="bg-[--matcha-dark] text-white px-10 py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest">Fechar / Close</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function setLang(lang) {
-            document.querySelectorAll('[data-lang]').forEach(el => {
-                el.style.display = el.getAttribute('data-lang') === lang ? 'block' : 'none';
-            });
-            document.getElementById('btn-pt').classList.toggle('bg-white', lang === 'pt');
-            document.getElementById('btn-en').classList.toggle('bg-white', lang === 'en');
-        }
-
-        const projects = {
-            cogni: {
-                pt: {
-                    title: "CogniPrep",
-                    body: "Agente de IA conversacional criado para transformar a busca por emprego em uma experiência estratégica e personalizada. Ajuda na criação e revisão de currículos, cartas de apresentação e portfólios, além de simular entrevistas — inclusive internacionais. Construído com engenharia de prompt avançada, lógica emocional e in-context learning, adapta tom e linguagem ao perfil de cada usuário. Testado em mais de 500 conversas reais, apoiou pessoas em transição de carreira com suporte empático e feedback honesto. Disponível em português, inglês e espanhol.",
-                    link: "https://chatgpt.com/g/g-6810ad12aa848191b569ac89616bb0ae-cogniprep"
-                },
-                en: {
-                    title: "CogniPrep",
-                    body: "A conversational AI agent designed to turn job searching into a strategic, personalized experience. It helps users create and review resumes, cover letters, and portfolios, while simulating interviews — including international ones. Built with advanced prompt engineering, emotional logic, and in-context learning, it adapts its tone and language to each user's profile. Tested across 500+ real conversations, it supported people in career transitions with empathetic guidance and honest feedback. Available in Portuguese, English, and Spanish.",
-                    link: "https://chatgpt.com/g/g-6810ad12aa848191b569ac89616bb0ae-cogniprep"
-                }
-            },
-            ben: {
-                pt: {
-                    title: "Ben.IA",
-                    body: "Agente conversacional criado para apoiar a jornada de alfabetização de crianças autistas, sempre com a supervisão de um adulto. Desenvolvido para pais, educadores e terapeutas, oferece atividades guiadas, linguagem lúdica e reforço positivo em cada etapa. Personaliza a experiência com base no nome, idade e interesses da criança, garantindo um ambiente seguro, previsível e acolhedor. Estimula leitura, comunicação verbal, associação e raciocínio — sempre de forma leve e gamificada. Inspirado na jornada pessoal da criadora como mãe, nasceu do desejo de oferecer às famílias uma ferramenta inclusiva e acessível, especialmente para quem não tem acesso contínuo à terapia.",
-                    link: "https://chatgpt.com/g/g-6805070cd0fc81918ef664a0d60ca187-ben-ia-seu-amigo-pra-aprender-brincando"
-                },
-                en: {
-                    title: "Ben.IA",
-                    body: "A conversational agent built to support the literacy journey of autistic children, always guided by a caring adult. Designed for parents, educators, and therapists, it provides structured activities, playful language, and positive reinforcement at every step. It personalizes the experience based on the child's name, age, and interests, creating a safe, predictable, and welcoming environment. It stimulates reading, verbal communication, association, and reasoning — in a light, gamified way. Inspired by the creator's personal journey as a mother, Ben.IA was born from the desire to offer families an inclusive and accessible tool, especially for those without continuous access to therapy.",
-                    link: "https://chatgpt.com/g/g-6805070cd0fc81918ef664a0d60ca187-ben-ia-seu-amigo-pra-aprender-brincando"
-                }
-            },
-            oraculo: {
-                pt: {
-                    title: "Oráculo de Services",
-                    body: "Agente de IA interno criado para apoiar o time de Services da Hi Platform em todo o ciclo de desenvolvimento de chatbots. Atua como parceiro sênior, guiando Bot Specialists, Content Designers, Integradores e Analistas na criação, otimização e análise de fluxos conversacionais. Treinado exclusivamente com documentação oficial da Hi Platform, artigos do Help Center e endpoints internos — sem fontes externas. Segue uma lógica contextual e por fases, sempre investigando o cenário antes de responder. Acelerou o onboarding, reduziu gargalos internos e se tornou referência diária para toda a equipe.",
-                    link: ""
-                },
-                en: {
-                    title: "Services Oracle",
-                    body: "An internal AI agent built to support Hi Platform's Services team across the entire chatbot development cycle. It acts as a senior partner, guiding Bot Specialists, Content Designers, Integrators, and Analysts through flow creation, optimization, and performance analysis. Trained exclusively on Hi Platform's official documentation, Help Center articles, and internal endpoints — with no external sources. Follows a contextual, phase-by-phase logic, always investigating the scenario before responding. Accelerated team onboarding, reduced internal bottlenecks, and became a daily reference for the entire team.",
-                    link: ""
-                }
-            }
-        };
-
-        function openProject(id) {
-            const lang = document.getElementById('btn-pt').classList.contains('bg-white') ? 'pt' : 'en';
-            const p = projects[id][lang];
-            document.getElementById('modal-title').innerText = p.title;
-            document.getElementById('modal-body').innerText  = p.body;
-            const linkEl = document.getElementById('modal-link');
-            if (p.link) {
-                linkEl.href = p.link;
-                linkEl.classList.remove('hidden');
-            } else {
-                linkEl.classList.add('hidden');
-            }
-            document.getElementById('project-modal').style.display = 'flex';
-        }
-
-        function closeProject() { document.getElementById('project-modal').style.display = 'none'; }
-    </script>
-
-    <script>
-        (function () {
-            const wrapper = document.getElementById('marquee-wrapper');
-            const track   = document.getElementById('marquee-track');
-            const DURATION = 45; // deve bater com o CSS
-            let isDragging = false, startX = 0, capturedX = 0;
-
-            function getLiveX() {
-                return new DOMMatrix(getComputedStyle(track).transform).m41;
-            }
-
-            function resumeFromX(x) {
-                const halfWidth = track.scrollWidth / 2;
-                x = x % (-halfWidth);
-                if (x > 0) x -= halfWidth;
-                const delay = (x / (-halfWidth)) * DURATION;
-                track.style.transform = '';
-                track.style.animationDelay = `-${delay}s`;
-                track.style.animationPlayState = 'running';
-                track.style.animation = '';
-                void track.offsetWidth;
-                track.style.animationDelay = `-${delay}s`;
-            }
-
-            wrapper.addEventListener('mousedown', e => {
-                isDragging = true;
-                capturedX  = getLiveX();
-                startX     = e.pageX;
-                track.style.animationPlayState = 'paused';
-                track.style.animation = 'none';
-                track.style.transform = `translateX(${capturedX}px)`;
-                wrapper.style.cursor  = 'grabbing';
-                e.preventDefault();
-            });
-
-            document.addEventListener('mousemove', e => {
-                if (!isDragging) return;
-                track.style.transform = `translateX(${capturedX + (e.pageX - startX)}px)`;
-            });
-
-            document.addEventListener('mouseup', () => {
-                if (!isDragging) return;
-                isDragging = false;
-                wrapper.style.cursor = 'grab';
-                resumeFromX(getLiveX());
-            });
-        })();
-    </script>
-</body>
-</html>
+      </div>
+    </section>
+    <section class="contact-section section" id="contact"><div class="container contact-layout"><div class="section-kicker">08 / THE NEXT CONVERSATION</div><p>GOT SOMETHING INTERESTING IN MIND?</p><h2>Let's make AI<br><em>mean something.</em></h2><a href="mailto:nathaliafrancadesign@gmail.com?subject=Let's%20talk%20about%20AI" class="contact-button">Start a conversation <span>↗</span></a><div class="contact-links"><a href="mailto:nathaliafrancadesign@gmail.com">EMAIL ↗</a><a href="https://www.linkedin.com/in/nath%C3%A1lia-franc4/" target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a><a href="#top">BACK TO TOP ↑</a></div></div></section>
+  </main>
+  <footer class="footer container"><div class="footer-logo">nf<span>.</span></div><span>DESIGNED TO EVOLVE · © <span id="year">2026</span> NATHÁLIA FRANÇA</span><span>MADE WITH INTENTION ✳</span></footer>
+  <dialog class="case-dialog" id="case-dialog" aria-labelledby="dialog-title"><div class="dialog-inner"><div class="dialog-bar"><span id="dialog-number">CASE STUDY</span><button type="button" id="dialog-close" aria-label="Close case study">CLOSE <span>✕</span></button></div><div id="dialog-content"></div><div class="dialog-foot"><span>SELECTED WORK / NATHÁLIA FRANÇA</span><button type="button" id="dialog-close-bottom">Close case ↗</button></div></div></dialog>
+</body></html>
