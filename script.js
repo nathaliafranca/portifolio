@@ -256,56 +256,66 @@ window.addEventListener('resize',()=>{if(innerWidth>760&&document.querySelector(
 const backToTop=document.getElementById('back-to-top');
 backToTop?.addEventListener('click',(event)=>{event.preventDefault();window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});history.replaceState(null,'',location.pathname+location.search+'#top');});
 
-// Infinite, animated company carousel with autoplay, buttons and swipe support.
+// V11.1 – continuous, seamless marquees with reversible navigation and touch dragging.
 (function(){
  const viewport=document.getElementById('clients-viewport');
  const track=document.getElementById('clients-track');
  const prev=document.getElementById('clients-prev');
  const next=document.getElementById('clients-next');
  if(!viewport||!track||!prev||!next)return;
- const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');
- const originalSlides=Array.from(track.children);
- const originalCount=originalSlides.length;
- if(!originalCount)return;
- const before=originalSlides.map(slide=>slide.cloneNode(true));
- const after=originalSlides.map(slide=>slide.cloneNode(true));
- before.forEach(clone=>{clone.setAttribute('aria-hidden','true');track.insertBefore(clone,track.firstChild)});
- after.forEach(clone=>{clone.setAttribute('aria-hidden','true');track.appendChild(clone)});
- let currentIndex=originalCount;
- let step=0;
- let autoTimer=null;
- let paused=false;
- let isDragging=false,startX=0,startTranslate=0,currentTranslate=0;
- const transitionValue='transform .62s cubic-bezier(.22,.8,.22,1)';
- function updateStep(){const slides=Array.from(track.children);if(slides.length<2)return;step=slides[1].offsetLeft-slides[0].offsetLeft||slides[0].getBoundingClientRect().width+18;}
- function applyTransform(animated=true){track.style.transition=(!prefersReduced.matches&&animated)?transitionValue:'none';currentTranslate=-currentIndex*step;track.style.transform=`translate3d(${currentTranslate}px,0,0)`;}
- function jumpToRealSet(){if(currentIndex>=originalCount*2){currentIndex=originalCount;applyTransform(false);}else if(currentIndex<originalCount){currentIndex=originalCount*2-1;applyTransform(false);}}
- function goTo(index){currentIndex=index;applyTransform(true);}
- function nextSlide(){goTo(currentIndex+1);}
- function prevSlide(){goTo(currentIndex-1);}
- function startAutoplay(){if(prefersReduced.matches)return;stopAutoplay();autoTimer=setInterval(()=>{if(!paused&&!isDragging)nextSlide();},2600);}
- function stopAutoplay(){if(autoTimer){clearInterval(autoTimer);autoTimer=null;}}
- function setPaused(value){paused=value;}
- function pointerX(evt){return evt.touches?evt.touches[0].clientX:evt.clientX;}
- function dragStart(evt){isDragging=true;setPaused(true);startX=pointerX(evt);startTranslate=-currentIndex*step;track.style.transition='none';}
- function dragMove(evt){if(!isDragging)return;const delta=pointerX(evt)-startX;currentTranslate=startTranslate+delta;track.style.transform=`translate3d(${currentTranslate}px,0,0)`;}
- function dragEnd(evt){if(!isDragging)return;const delta=(pointerX(evt)-startX);isDragging=false;if(Math.abs(delta)>48){delta<0?nextSlide():prevSlide();}else{applyTransform(true);}setPaused(false);}
- function setup(){updateStep();applyTransform(false);startAutoplay();}
- next.addEventListener('click',()=>{setPaused(true);nextSlide();setTimeout(()=>setPaused(false),500)});
- prev.addEventListener('click',()=>{setPaused(true);prevSlide();setTimeout(()=>setPaused(false),500)});
- track.addEventListener('transitionend',jumpToRealSet);
- viewport.addEventListener('mouseenter',()=>setPaused(true));
- viewport.addEventListener('mouseleave',()=>setPaused(false));
- viewport.addEventListener('focusin',()=>setPaused(true));
- viewport.addEventListener('focusout',()=>setPaused(false));
- viewport.addEventListener('touchstart',dragStart,{passive:true});
- viewport.addEventListener('touchmove',dragMove,{passive:true});
- viewport.addEventListener('touchend',dragEnd);
- viewport.addEventListener('mousedown',evt=>{evt.preventDefault();dragStart(evt)});
- window.addEventListener('mousemove',dragMove);
- window.addEventListener('mouseup',dragEnd);
- viewport.addEventListener('keydown',evt=>{if(evt.key==='ArrowRight'){evt.preventDefault();nextSlide();}if(evt.key==='ArrowLeft'){evt.preventDefault();prevSlide();}});
- window.addEventListener('resize',()=>{updateStep();applyTransform(false)},{passive:true});
- prefersReduced.addEventListener?.('change',()=>{if(prefersReduced.matches)stopAutoplay();else startAutoplay();applyTransform(false);});
- setup();
+ const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+ const originals=Array.from(track.children);
+ if(!originals.length)return;
+ // One complete set is cloned on either side; all clones are hidden from screen readers.
+ const first=document.createDocumentFragment(),last=document.createDocumentFragment();
+ for(const original of originals){
+  const a=original.cloneNode(true);a.setAttribute('aria-hidden','true');first.appendChild(a);
+  const b=original.cloneNode(true);b.setAttribute('aria-hidden','true');last.appendChild(b);
+ }
+ track.prepend(first);track.append(last);
+ let groupWidth=1,offset=0,lastFrame=0,raf=0;
+ let pointerId=null,pointerX=0,pointerMoved=false;
+ let hovering=false,focused=false,visible=true;
+ let direction=1,impulseUntil=0;
+ const slowSpeed=21, manualSpeed=180; // CSS pixels per second
+ const normalize=()=>{while(offset<groupWidth)offset+=groupWidth;while(offset>=groupWidth*2)offset-=groupWidth;};
+ const render=()=>{track.style.transform=`translate3d(${-offset}px,0,0)`;};
+ function measure(){
+  const old=groupWidth;
+  const firstOrig=track.children[originals.length];
+  const firstClone=track.children[originals.length*2];
+  groupWidth=Math.max(1,firstClone.offsetLeft-firstOrig.offsetLeft);
+  offset=old>1?groupWidth*(1+(offset/old-1)):groupWidth;
+  normalize();render();
+ }
+ function tick(now){
+  if(!lastFrame)lastFrame=now;
+  const dt=Math.min((now-lastFrame)/1000,.05);lastFrame=now;
+  if(visible&&!reduceMotion.matches&&pointerId===null&&!hovering&&!focused){
+   const speed=now<impulseUntil?manualSpeed:slowSpeed;
+   offset+=direction*speed*dt;normalize();render();
+  }
+  raf=requestAnimationFrame(tick);
+ }
+ function navigate(dir){
+  direction=dir;impulseUntil=performance.now()+700;
+  // Button presses work even if the carousel is paused by hover.
+  offset+=dir*34;normalize();render();
+ }
+ prev.addEventListener('click',()=>navigate(-1));
+ next.addEventListener('click',()=>navigate(1));
+ viewport.addEventListener('mouseenter',()=>{hovering=true});
+ viewport.addEventListener('mouseleave',()=>{hovering=false});
+ viewport.addEventListener('focusin',()=>{focused=true});
+ viewport.addEventListener('focusout',e=>{if(!viewport.contains(e.relatedTarget))focused=false});
+ viewport.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();navigate(1)}else if(e.key==='ArrowLeft'){e.preventDefault();navigate(-1)}});
+ viewport.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;pointerId=e.pointerId;pointerX=e.clientX;pointerMoved=false;viewport.classList.add('is-dragging');viewport.setPointerCapture(e.pointerId)});
+ viewport.addEventListener('pointermove',e=>{if(pointerId!==e.pointerId)return;const dx=e.clientX-pointerX;if(Math.abs(dx)>3)pointerMoved=true;offset-=dx;pointerX=e.clientX;normalize();render()});
+ const end=e=>{if(pointerId!==e.pointerId)return;pointerId=null;viewport.classList.remove('is-dragging')};
+ viewport.addEventListener('pointerup',end);viewport.addEventListener('pointercancel',end);
+ document.addEventListener('visibilitychange',()=>{visible=!document.hidden;lastFrame=0});
+ window.addEventListener('resize',measure,{passive:true});
+ // Images are local; still remeasure when they finish loading if needed.
+ track.querySelectorAll('img').forEach(img=>img.addEventListener('load',measure,{once:true}));
+ measure();raf=requestAnimationFrame(tick);
 })();
