@@ -23,6 +23,7 @@ const translationsPt = {
   "Close case ↗": "Fechar projeto ↗",
   "Skip to content": "Pular para o conteúdo",
   "Work": "Projetos",
+  "SELECTED COLLABORATIONS": "EMPRESAS COM AS QUAIS COLABOREI",
   "Approach": "Método",
   "About": "Sobre",
   "Writing": "Artigos",
@@ -30,7 +31,7 @@ const translationsPt = {
   "Let's talk": "Vamos conversar",
   "GENERATIVE AI · AGENT DESIGN · SOLUTIONS": "IA GENERATIVA · AGENTES · SOLUÇÕES",
   "PORTFOLIO / 2026": "PORTFÓLIO / 2026",
-  "HI, I'M NATHÁLIA FRANÇA": "OI, SOU NATHÁLIA FRANÇA",
+  "HI, I'M NATHÁLIA FRANÇA": "OI, EU SOU A NATHÁLIA FRANÇA",
   "Designing": "Projetando",
   "intelligence.": "inteligência.",
   "Building ": "Criando ",
@@ -55,6 +56,8 @@ const translationsPt = {
   "RAG": "RAG",
   "API TOOLS": "FERRAMENTAS · APIs",
   "RAG · KNOWLEDGE BASES": "RAG · BASES DE CONHECIMENTO",
+  "CONVERSATIONAL UX": "UX CONVERSACIONAL",
+  "USER JOURNEYS": "JORNADAS DO USUÁRIO",
   "AGENT DEVELOPMENT": "DESENVOLVIMENTO DE AGENTES",
   "AI SOLUTIONS": "SOLUÇÕES DE IA",
   "From rule-based": "De regras fixas",
@@ -97,7 +100,7 @@ const translationsPt = {
   "A bridge between ": "Uma ponte entre ",
   "what's possible": "o que é possível",
   " and what's useful.": " e o que é útil.",
-  "I'm Nathália, a generative AI specialist with a background in conversational design and hands-on experience building and improving AI agents in production.": "Sou Nathália, especialista em IA generativa, com experiência em design conversacional e atuação prática na construção e evolução de agentes de IA em produção.",
+  "I'm Nathália, a generative AI specialist with a background in conversational design and hands-on experience building and improving AI agents in production.": "Sou a Nathália, especialista em IA generativa, com experiência em design conversacional e atuação prática na construção e evolução de agentes de IA em produção.",
   "My work sits where technology, experience, and product decisions meet. I move between designing how an agent should behave, configuring how it works, investigating what goes wrong, and evolving it with real-world evidence.": "Meu trabalho acontece no encontro entre tecnologia, experiência e decisões de produto. Defino como um agente deve se comportar, configuro seu funcionamento, investigo problemas e evoluo a solução a partir de evidências reais.",
   "More about my journey ": "Conheça minha trajetória ",
   "EXPERIENCE / JOURNEY": "EXPERIÊNCIA / TRAJETÓRIA",
@@ -182,6 +185,7 @@ const editorialHeadings = [
    "Great AI isn't just about what a model <i>can</i> do.<br>It's about what people can <span>actually accomplish</span> with it.",
    'Uma boa IA vai além do que um modelo <i>é capaz de fazer.</i><br>O que importa é o que as pessoas <span>conseguem realizar</span> com ela.'],
   ['#work-title', 'Selected <em>work.</em>', 'Projetos em <em>destaque.</em>'],
+  ['#clients-heading', "Companies I've <em>worked with.</em>", 'Empresas com as quais <em>colaborei.</em>'],
   ['.card-agent h3', 'From rule-based<br>to <em>generative.</em>', 'De fluxos predefinidos<br>à <em>IA generativa.</em>'],
   ['.card-guidance h3', 'Guidance that<br><em>adapts.</em>', 'Orientação que<br><em>se adapta.</em>'],
   ['.card-evaluation h3', 'Making AI<br><em>testable.</em>', 'Testar IA com<br><em>mais eficiência.</em>'],
@@ -251,3 +255,15 @@ window.addEventListener('resize',()=>{if(innerWidth>760&&document.querySelector(
 // Keep the back-to-top control functional on hosted pages and in previews.
 const backToTop=document.getElementById('back-to-top');
 backToTop?.addEventListener('click',(event)=>{event.preventDefault();window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});history.replaceState(null,'',location.pathname+location.search+'#top');});
+
+// Accessible, touch-friendly company carousel with manual controls.
+(function(){
+ const viewport=document.getElementById('clients-viewport');
+ if(!viewport)return;
+ const advance=dir=>viewport.scrollBy({left:dir*viewport.querySelector('.client-logo').getBoundingClientRect().width+dir*14,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ document.getElementById('clients-prev')?.addEventListener('click',()=>advance(-1));
+ document.getElementById('clients-next')?.addEventListener('click',()=>{
+  if(viewport.scrollLeft+viewport.clientWidth>=viewport.scrollWidth-8)viewport.scrollTo({left:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  else advance(1);
+ });
+})();
