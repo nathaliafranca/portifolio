@@ -151,12 +151,3 @@ html{scroll-padding-top:88px}
 @media(max-width:920px){.client-slide{width:200px;min-width:200px;height:118px}.clients-fade{width:52px}}
 @media(max-width:760px){.clients-section{padding-block:48px}.clients-heading-row{align-items:center}.clients-heading-row h2{font-size:clamp(26px,7vw,39px)}.clients-controls button{width:46px;height:46px}.clients-track{gap:12px;padding:18px 0}.client-slide{width:170px;min-width:170px;height:104px;padding:16px;border-radius:16px}.client-slide img{max-height:52px}.logo-etihad img{max-height:42px}.logo-vivo img{max-height:48px}.logo-caixa img,.logo-certisign img,.logo-btg img,.logo-mercado img,.logo-itau img,.logo-nubank img{max-height:56px}.clients-fade{width:34px}}
 @media(prefers-reduced-motion:reduce){.clients-controls button,.client-slide{transition:none}}
-
-/* V11.1: continuous slow marquee; no stepped/slideshow movement. */
-.clients-viewport{cursor:grab;touch-action:pan-y;overscroll-behavior:contain}
-.clients-viewport.is-dragging{cursor:grabbing}
-.clients-track{transition:none!important;transform:translate3d(0,0,0);user-select:none}
-.client-slide{flex-shrink:0}
-.client-slide img{pointer-events:none;-webkit-user-drag:none}
-.logo-caixa img{max-width:89%;max-height:60px}
-@media(max-width:760px){.logo-caixa img{max-height:48px}}
