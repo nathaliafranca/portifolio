@@ -124,34 +124,30 @@ html{scroll-padding-top:88px}
 @media(max-width:600px){.agent-art .ux-note{top:11%;left:2%}.agent-art .journey-note{bottom:10%;right:2%}.agent-art .art-note{font-size:8px;padding:8px 10px;letter-spacing:.045em}.agent-art .left-note{left:1%;bottom:32%}.agent-art .right-note{right:1%;top:33%}}
 
 /* V9 — Companies carousel (text-only references, no external logo assets) */
+
+
+
+/* V11 – local logo carousel with infinite motion */
 .clients-section{background:#0d0b14;border-top:1px solid #ffffff16;border-bottom:1px solid #ffffff16;padding-block:70px}
 .clients-heading-row{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:27px}
 .clients-heading-row h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.045em;line-height:1.1;margin:10px 0 0;color:#f8f5ff}
 .clients-heading-row h2 em{font-family:Georgia,serif;color:#cbb8ff;font-weight:400}
-.clients-controls{display:flex;gap:9px;flex-shrink:0}
-.clients-controls button{width:43px;height:43px;border:1px solid #c6aee657;background:#ffffff09;color:#e4d7f8;border-radius:50%;font-size:20px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
-.clients-controls button:hover{background:#ac8de42e;border-color:#d9bfff;transform:translateY(-2px)}
+.clients-controls{display:flex;gap:12px;flex-shrink:0}
+.clients-controls button{width:52px;height:52px;border:1px solid #c6aee657;background:#ffffff08;color:#efe6ff;border-radius:50%;font-size:22px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s,box-shadow .2s}
+.clients-controls button:hover{background:#b693ff1f;border-color:#e4ceff;transform:translateY(-2px);box-shadow:0 10px 20px #0000001e}
 .clients-controls button:focus-visible,.clients-viewport:focus-visible{outline:2px solid #cbb8ff;outline-offset:3px}
-.clients-viewport{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scrollbar-width:none;border-top:1px solid #ffffff13;border-bottom:1px solid #ffffff13}
-.clients-viewport::-webkit-scrollbar{display:none}
-.clients-track{display:flex;align-items:stretch;gap:14px;width:max-content;padding:23px 0}
-.client-logo{width:205px;min-height:123px;flex:none;scroll-snap-align:start;display:flex;justify-content:center;align-items:center;gap:9px;border-radius:16px;background:linear-gradient(140deg,#ffffff0b,#ffffff03);border:1px solid #ffffff1d;color:#c8c2d4;filter:grayscale(1);font-weight:750;letter-spacing:-.035em;transition:background .2s,color .2s,transform .2s}
-.client-logo:hover{transform:translateY(-3px);background:#cbb8ff14;color:#faf6ff}
-.logo-nubank{font-weight:900;font-size:49px;letter-spacing:-.12em}.client-text-name{font-size:0;position:absolute}
-.itau-mark{font-size:28px;font-weight:850;letter-spacing:-.07em;border:2px solid currentColor;border-radius:9px;padding:4px 9px}
-.logo-mercado{font-size:19px;line-height:.9;letter-spacing:-.06em}.mercado-symbol{font-size:25px;letter-spacing:-.2em;margin-right:5px}
-.logo-caixa{font-size:35px;font-weight:950;font-style:italic;letter-spacing:-.08em}
-.logo-btg{font-size:34px;letter-spacing:-.075em}.logo-btg span{font-size:17px;font-weight:450;letter-spacing:-.04em;margin-left:-7px}
-.logo-carrefour{font-size:14px;font-weight:700;flex-direction:column;gap:3px}.carrefour-symbol{font-size:28px;letter-spacing:-.2em}
-@media(max-width:760px){.clients-section{padding-block:48px}.clients-heading-row h2{font-size:clamp(26px,7vw,39px)}.client-logo{width:169px;min-height:105px}.clients-track{gap:10px;padding:17px 0}}
-@media(prefers-reduced-motion:reduce){.clients-controls button,.client-logo{transition:none}}
-
-/* V10: logo imagery with graceful text fallback. Keep the original artwork legible on dark surfaces. */
-.clients-track{align-items:stretch}
-.client-logo{position:relative;padding:20px 27px;isolation:isolate}
-.client-logo img{display:block;max-width:100%;max-height:66px;width:auto;height:auto;object-fit:contain;filter:grayscale(1) brightness(1.1);opacity:.85;transition:filter .24s ease,opacity .24s ease;mix-blend-mode:screen}
-.client-logo:hover img{filter:grayscale(0) brightness(1.05);opacity:1}
-.client-logo img[hidden],.client-logo-fallback[hidden]{display:none!important}
-.client-logo-fallback{font-size:clamp(18px,2vw,25px);font-weight:750;line-height:1.12;letter-spacing:-.05em;text-align:center;color:#ded4f1}
-@media(max-width:760px){.client-logo{padding:16px}.client-logo img{max-height:54px}}
-@media(prefers-reduced-motion:reduce){.client-logo img{transition:none}}
+.clients-viewport{position:relative;overflow:hidden;border-top:1px solid #ffffff13;border-bottom:1px solid #ffffff13}
+.clients-track{display:flex;align-items:center;gap:18px;padding:24px 0;will-change:transform;touch-action:pan-y}
+.client-slide{width:228px;min-width:228px;height:132px;display:flex;align-items:center;justify-content:center;padding:20px;border-radius:18px;background:linear-gradient(180deg,#141123,#0e0b18);border:1px solid #ffffff12;box-shadow:inset 0 1px 0 #ffffff10,0 12px 30px #00000012;transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease,background .28s ease;user-select:none}
+.client-slide:hover{transform:translateY(-4px);border-color:#c8b1ff55;background:linear-gradient(180deg,#18142a,#110d1c);box-shadow:inset 0 1px 0 #ffffff12,0 20px 35px #00000025}
+.client-slide img{display:block;max-width:100%;max-height:70px;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(0,0,0,.24))}
+.logo-etihad img{max-height:58px}
+.logo-vivo img{max-height:62px}
+.logo-carrefour img{max-height:62px}
+.logo-caixa img,.logo-certisign img,.logo-btg img,.logo-mercado img,.logo-itau img,.logo-nubank img{max-height:74px}
+.clients-fade{position:absolute;top:0;bottom:0;width:84px;z-index:2;pointer-events:none}
+.clients-fade-left{left:0;background:linear-gradient(90deg,#0d0b14 0%,rgba(13,11,20,.78) 48%,rgba(13,11,20,0) 100%)}
+.clients-fade-right{right:0;background:linear-gradient(270deg,#0d0b14 0%,rgba(13,11,20,.78) 48%,rgba(13,11,20,0) 100%)}
+@media(max-width:920px){.client-slide{width:200px;min-width:200px;height:118px}.clients-fade{width:52px}}
+@media(max-width:760px){.clients-section{padding-block:48px}.clients-heading-row{align-items:center}.clients-heading-row h2{font-size:clamp(26px,7vw,39px)}.clients-controls button{width:46px;height:46px}.clients-track{gap:12px;padding:18px 0}.client-slide{width:170px;min-width:170px;height:104px;padding:16px;border-radius:16px}.client-slide img{max-height:52px}.logo-etihad img{max-height:42px}.logo-vivo img{max-height:48px}.logo-caixa img,.logo-certisign img,.logo-btg img,.logo-mercado img,.logo-itau img,.logo-nubank img{max-height:56px}.clients-fade{width:34px}}
+@media(prefers-reduced-motion:reduce){.clients-controls button,.client-slide{transition:none}}

@@ -256,14 +256,56 @@ window.addEventListener('resize',()=>{if(innerWidth>760&&document.querySelector(
 const backToTop=document.getElementById('back-to-top');
 backToTop?.addEventListener('click',(event)=>{event.preventDefault();window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});history.replaceState(null,'',location.pathname+location.search+'#top');});
 
-// Accessible, touch-friendly company carousel with manual controls.
+// Infinite, animated company carousel with autoplay, buttons and swipe support.
 (function(){
  const viewport=document.getElementById('clients-viewport');
- if(!viewport)return;
- const advance=dir=>viewport.scrollBy({left:dir*viewport.querySelector('.client-logo').getBoundingClientRect().width+dir*14,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
- document.getElementById('clients-prev')?.addEventListener('click',()=>advance(-1));
- document.getElementById('clients-next')?.addEventListener('click',()=>{
-  if(viewport.scrollLeft+viewport.clientWidth>=viewport.scrollWidth-8)viewport.scrollTo({left:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
-  else advance(1);
- });
+ const track=document.getElementById('clients-track');
+ const prev=document.getElementById('clients-prev');
+ const next=document.getElementById('clients-next');
+ if(!viewport||!track||!prev||!next)return;
+ const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+ const originalSlides=Array.from(track.children);
+ const originalCount=originalSlides.length;
+ if(!originalCount)return;
+ const before=originalSlides.map(slide=>slide.cloneNode(true));
+ const after=originalSlides.map(slide=>slide.cloneNode(true));
+ before.forEach(clone=>{clone.setAttribute('aria-hidden','true');track.insertBefore(clone,track.firstChild)});
+ after.forEach(clone=>{clone.setAttribute('aria-hidden','true');track.appendChild(clone)});
+ let currentIndex=originalCount;
+ let step=0;
+ let autoTimer=null;
+ let paused=false;
+ let isDragging=false,startX=0,startTranslate=0,currentTranslate=0;
+ const transitionValue='transform .62s cubic-bezier(.22,.8,.22,1)';
+ function updateStep(){const slides=Array.from(track.children);if(slides.length<2)return;step=slides[1].offsetLeft-slides[0].offsetLeft||slides[0].getBoundingClientRect().width+18;}
+ function applyTransform(animated=true){track.style.transition=(!prefersReduced.matches&&animated)?transitionValue:'none';currentTranslate=-currentIndex*step;track.style.transform=`translate3d(${currentTranslate}px,0,0)`;}
+ function jumpToRealSet(){if(currentIndex>=originalCount*2){currentIndex=originalCount;applyTransform(false);}else if(currentIndex<originalCount){currentIndex=originalCount*2-1;applyTransform(false);}}
+ function goTo(index){currentIndex=index;applyTransform(true);}
+ function nextSlide(){goTo(currentIndex+1);}
+ function prevSlide(){goTo(currentIndex-1);}
+ function startAutoplay(){if(prefersReduced.matches)return;stopAutoplay();autoTimer=setInterval(()=>{if(!paused&&!isDragging)nextSlide();},2600);}
+ function stopAutoplay(){if(autoTimer){clearInterval(autoTimer);autoTimer=null;}}
+ function setPaused(value){paused=value;}
+ function pointerX(evt){return evt.touches?evt.touches[0].clientX:evt.clientX;}
+ function dragStart(evt){isDragging=true;setPaused(true);startX=pointerX(evt);startTranslate=-currentIndex*step;track.style.transition='none';}
+ function dragMove(evt){if(!isDragging)return;const delta=pointerX(evt)-startX;currentTranslate=startTranslate+delta;track.style.transform=`translate3d(${currentTranslate}px,0,0)`;}
+ function dragEnd(evt){if(!isDragging)return;const delta=(pointerX(evt)-startX);isDragging=false;if(Math.abs(delta)>48){delta<0?nextSlide():prevSlide();}else{applyTransform(true);}setPaused(false);}
+ function setup(){updateStep();applyTransform(false);startAutoplay();}
+ next.addEventListener('click',()=>{setPaused(true);nextSlide();setTimeout(()=>setPaused(false),500)});
+ prev.addEventListener('click',()=>{setPaused(true);prevSlide();setTimeout(()=>setPaused(false),500)});
+ track.addEventListener('transitionend',jumpToRealSet);
+ viewport.addEventListener('mouseenter',()=>setPaused(true));
+ viewport.addEventListener('mouseleave',()=>setPaused(false));
+ viewport.addEventListener('focusin',()=>setPaused(true));
+ viewport.addEventListener('focusout',()=>setPaused(false));
+ viewport.addEventListener('touchstart',dragStart,{passive:true});
+ viewport.addEventListener('touchmove',dragMove,{passive:true});
+ viewport.addEventListener('touchend',dragEnd);
+ viewport.addEventListener('mousedown',evt=>{evt.preventDefault();dragStart(evt)});
+ window.addEventListener('mousemove',dragMove);
+ window.addEventListener('mouseup',dragEnd);
+ viewport.addEventListener('keydown',evt=>{if(evt.key==='ArrowRight'){evt.preventDefault();nextSlide();}if(evt.key==='ArrowLeft'){evt.preventDefault();prevSlide();}});
+ window.addEventListener('resize',()=>{updateStep();applyTransform(false)},{passive:true});
+ prefersReduced.addEventListener?.('change',()=>{if(prefersReduced.matches)stopAutoplay();else startAutoplay();applyTransform(false);});
+ setup();
 })();
